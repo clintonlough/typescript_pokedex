@@ -1,0 +1,29 @@
+{
+  "name": "typescript_pokedex",
+  "version": "1.0.0",
+  "description": "Typescript pokedex project through Boot.dev",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "dev": "npx tsc && node dist/main.js",
+    "test": "vitest --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clintonlough/typescript_pokedex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clintonlough/typescript_pokedex/issues"
+  },
+  "homepage": "https://github.com/clintonlough/typescript_pokedex#readme",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  }
+}
