@@ -8,6 +8,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+repl.log*
 
 # environment / local config
 .env
