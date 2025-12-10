@@ -1,14 +1,8 @@
 //Imports
-import {createInterface} from "readline";
-import {commandExit} from "./command_exit.js";
-import {commandHelp} from "./command_help.js";
+import { State } from "./state";
 
 //Type Definitions
-export type CLICommand = {
-  name: string;
-  description: string;
-  callback: (commands: Record<string, CLICommand>) => void;
-};
+
 
 //Functions
 
@@ -21,49 +15,29 @@ export function cleanInput(input: string): string[] {
     return trimmed.split(/\s+/);
 }
 
-export function startREPL(): void {
-    
-    const input = process.stdin;
-    const output = process.stdout;
-    const prompt = "Pokedex > ";
+export function startREPL(state: State): void {
+
     let words: string[] = [];
-    const rl = createInterface({ input, output });
-    rl.setPrompt(prompt);
-    rl.prompt();
-    rl.on('line', (input) => {
+    state.readline.prompt();
+    state.readline.on('line', (input) => {
         if (input === "") {
-            rl.prompt();
+            state.readline.prompt();
         } else {
             words = cleanInput(input);
             const command = words[0]
-            executeCommand(command);
-            rl.prompt();
+            const cmd = state.commands[command];
+            if (!cmd) {
+                console.log("Unknown Command");
+                state.readline.prompt();
+            } else {
+                try {
+                    cmd.callback(state);
+                } catch (e) {
+                    console.log(e);
+                }
+                state.readline.prompt();
+            }
         }
     }); 
     
-}
-
-export function getCommands(): Record<string, CLICommand> {
-  return {
-    exit: {
-      name: "exit",
-      description: "Exits the pokedex",
-      callback: commandExit,
-    },
-    help: {
-        name: "help",
-        description: "Displays a help message",
-        callback: commandHelp,
-    },
-    // can add more commands here
-  };
-}
-
-export function executeCommand(command: string): void {
-    const availableCommands = getCommands();
-    if (command in availableCommands) {
-        availableCommands[command].callback(availableCommands);
-    } else {
-        console.log("Unknown command");
-    }
-}
+};
