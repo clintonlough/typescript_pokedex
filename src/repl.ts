@@ -19,7 +19,7 @@ export function startREPL(state: State): void {
 
     let words: string[] = [];
     state.readline.prompt();
-    state.readline.on('line', (input) => {
+    state.readline.on('line', async (input) => {
         if (input === "") {
             state.readline.prompt();
         } else {
@@ -31,7 +31,7 @@ export function startREPL(state: State): void {
                 state.readline.prompt();
             } else {
                 try {
-                    cmd.callback(state);
+                    await cmd.callback(state);
                 } catch (e) {
                     console.log(e);
                 }
