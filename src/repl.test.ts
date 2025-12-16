@@ -9,7 +9,7 @@ describe.each([
   },
   {
     input: "Charmander Bulbasaur   Squirtle",
-    expected: ["Charmander", "Bulbasaur", "Squirtle"],
+    expected: ["charmander", "bulbasaur", "squirtle"],
   },
   {
     input: "    ",
@@ -17,7 +17,7 @@ describe.each([
   },
   {
     input: " Test    whitespace        ",
-    expected: ["Test", "whitespace"],
+    expected: ["test", "whitespace"],
   },
 ])("cleanInput($input)", ({ input, expected }) => {
   test(`Expected: ${expected}`, () => {
