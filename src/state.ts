@@ -3,6 +3,7 @@ import { createInterface, type Interface } from "readline";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap, commandMapb } from "./command_map.js";
+import { commandExplore } from "./command_explore.js";
 import { PokeAPI } from "./pokeapi.js";
 
 //Type Definitions
@@ -10,7 +11,7 @@ import { PokeAPI } from "./pokeapi.js";
 export type CLICommand = {
   name: string;
   description: string;
-  callback: (state: State) => Promise<void>;
+  callback: (state: State, ...args: string[]) => Promise<void>;
 };
 
 export type State = {
@@ -44,6 +45,11 @@ export function getCommands(): Record<string, CLICommand> {
       name: "mapb",
       description: "Show previous 20 locations from the Pokemon Universe",
       callback: commandMapb,
+    },
+    explore: {
+      name: "explore",
+      description: "Shows the pokemon in a listed region",
+      callback: commandExplore,
     },
     // can add more commands here
   };

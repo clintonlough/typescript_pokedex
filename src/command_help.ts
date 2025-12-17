@@ -1,6 +1,6 @@
 import { State } from "./state";
 
-export async function commandHelp(state: State): Promise<void> {
+export async function commandHelp(state: State, ...args: string[]): Promise<void> {
     console.log("Welcome to the Pokedex!");
     console.log("usage:");
     console.log("");

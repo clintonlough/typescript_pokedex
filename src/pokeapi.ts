@@ -30,7 +30,23 @@ export class PokeAPI {
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
-    return "";
+   const locationURL = "https://pokeapi.co/api/v2/location-area/" + locationName;
+
+    // Synchronous cache check
+    const cached = this.#cache.get<Location>(locationURL);
+    if (cached !== undefined) {
+      return cached; // Return immediately if found
+    }
+
+    const response = await fetch(locationURL, {
+      method: "GET",
+      mode: "cors",
+    });
+
+    const data = await response.json();
+    this.#cache.add<Location>(locationURL, data);
+
+    return data;
   }
 }
 
@@ -45,5 +61,53 @@ export type ShallowLocations = {
 };
 
 export type Location = {
-//todo - single location implementation
+  id: number,
+  name: string,
+  encounter_method_rates: {
+    encounter_method: {
+      name: string,
+      url: string;
+    },
+    version_details: {
+      rate: number,
+      version: {
+        name: string,
+        url: string;
+      },
+    };
+  }[],
+  location: {
+    name: string,
+    url: string;
+  },
+  names: {
+    name: string,
+    language: {
+      name: string,
+      url: string;
+    };
+  }[],
+  pokemon_encounters: {
+    pokemon: {
+      name: string,
+      url: string;
+    },
+    version_details: {
+      version: {
+        name: string,
+        url: string;
+      },
+      max_chance: number,
+      encounter_details: {
+        min_level: number,
+        max_level: number,
+        condition_values: [],
+        chance: number,
+        method: {
+          name: string,
+          url: string;
+        }
+      }
+    }[];
+  }[];
 };

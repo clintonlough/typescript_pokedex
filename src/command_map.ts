@@ -1,6 +1,6 @@
 import { State } from "./state";
 
-export async function commandMap(state: State): Promise<void> {
+export async function commandMap(state: State, ...args: string[]): Promise<void> {
     const api = state.pokeAPI;
     const locations = await api.fetchLocations(state.nextLocationsURL);
 

@@ -25,13 +25,14 @@ export function startREPL(state: State): void {
         } else {
             words = cleanInput(input);
             const command = words[0]
+            const args = words.slice(1);
             const cmd = state.commands[command];
             if (!cmd) {
                 console.log("Unknown Command");
                 state.readline.prompt();
             } else {
                 try {
-                    await cmd.callback(state);
+                    await cmd.callback(state, ...args);
                 } catch (e) {
                     console.log(e);
                 }
