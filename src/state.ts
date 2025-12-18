@@ -4,7 +4,9 @@ import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap, commandMapb } from "./command_map.js";
 import { commandExplore } from "./command_explore.js";
-import { PokeAPI } from "./pokeapi.js";
+import { commandCatch} from "./command_catch.js";
+import { commandInspect } from "./commandInspect.js";
+import { PokeAPI, Pokemon } from "./pokeapi.js";
 
 //Type Definitions
 
@@ -20,6 +22,7 @@ export type State = {
     pokeAPI: PokeAPI;
     nextLocationsURL: string | null;
     prevLocationsURL: string | null;
+    pokedex: Record<string, Pokemon>;
 }
 
 //Functions
@@ -51,6 +54,16 @@ export function getCommands(): Record<string, CLICommand> {
       description: "Shows the pokemon in a listed region",
       callback: commandExplore,
     },
+    catch: {
+      name: "catch",
+      description: "attempts to catch a pokemon and add to the pokedex",
+      callback: commandCatch,
+    },
+    inspect: {
+      name: "inspect",
+      description: "provides information about a caught pokemon from the pokedex",
+      callback: commandInspect,
+    },
     // can add more commands here
   };
 }
@@ -68,6 +81,7 @@ export function initState(): State {
         pokeAPI: new PokeAPI,
         nextLocationsURL: null,
         prevLocationsURL: null,
+        pokedex: {},
     };
     return state;
 }
